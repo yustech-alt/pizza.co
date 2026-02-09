@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
-import { Form } from 'react-router-dom';
+import { Form, useNavigation } from 'react-router-dom';
+import Button from '../../ui/Button';
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -34,29 +35,35 @@ const fakeCart = [
 
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
   const cart = fakeCart;
 
+  
   return (
     <div>
-      <h2>Ready to order? Let's go!</h2>
+      <h2 className="mb-4 text-2xl font-bold tracking-wider">
+        Ready to order? Let's go!
+      </h2>
 
       <Form method="POST">
-        <div>
+        <div  className="">
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <br />
+          <input className="input" type="text" name="customer" required />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input className="input" type="tel" name="phone" required />
           </div>
         </div>
 
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input className="input" type="text" name="address" required />
           </div>
         </div>
 
@@ -73,7 +80,9 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button>Order now</button>
+          <Button type="primary" disabled={isSubmitting}>
+            {isSubmitting ? 'placing the order>>>' : 'order now'}
+          </Button>
         </div>
       </Form>
     </div>
